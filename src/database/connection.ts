@@ -3,6 +3,7 @@ import "reflect-metadata";
 import Project from "../app/models/ProjectsModels";
 import Users from "../app/models/UsersModels";
 import { config } from "dotenv";
+import { InsertOwnerApplication1655506036500 } from "./migration/owner";
 
 config();
 
@@ -24,6 +25,9 @@ const Database: DataSource = new DataSource({
     Project,
     Users
   ],
+  migrations: [
+    InsertOwnerApplication1655506036500
+  ]
 });
 
 export default Database;
