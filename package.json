@@ -5,7 +5,8 @@
   "author": "Alisson-Py <alissilva1231@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "ts-node-dev src/server.ts --transpile-only --ignore_watch /node_modules"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
