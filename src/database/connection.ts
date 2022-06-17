@@ -2,6 +2,9 @@ import { DataSource } from "typeorm";
 import "reflect-metadata";
 import Project from "../app/models/ProjectsModels";
 import Users from "../app/models/UsersModels";
+import { config } from "dotenv";
+
+config();
 
 const {
   DB_USER,
@@ -16,8 +19,7 @@ const Database: DataSource = new DataSource({
   username: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
-  synchronize: true,
-  logging: true,
+  logging: false,
   entities: [
     Project,
     Users
