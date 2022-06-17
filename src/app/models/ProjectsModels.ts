@@ -33,3 +33,5 @@ class Project {
   })
   updatedAt: Date;
 };
+
+export default Project;
