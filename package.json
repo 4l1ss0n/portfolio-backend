@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "start": "ts-node-dev src/server.ts --transpile-only --ignore_watch /node_modules"
+    "start": "ts-node-dev src/server.ts --transpile-only --ignore_watch /node_modules",
+    "orm": "ts-node node_modules/typeorm/cli"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
