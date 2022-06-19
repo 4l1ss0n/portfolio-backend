@@ -4,7 +4,9 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } fro
 @Entity()
 class Project {
   
-  @PrimaryColumn()
+  @PrimaryColumn({
+    generated: "uuid"
+  })
   id: string;
   
   @Column()
