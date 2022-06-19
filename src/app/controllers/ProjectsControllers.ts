@@ -21,6 +21,7 @@ class ProjectControllers {
     async Show(req: Req, res: Res): Promise<Res<any>> {
         const id = req.params.id;
         try {
+            if (id.split("-").length !== 5 ) return res.status(401).json({err: "no valid parameter"})
             const ProjectsR = Database.getRepository(Project);
 
             const response = await ProjectsR.findOne({
