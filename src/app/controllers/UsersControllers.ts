@@ -2,8 +2,15 @@ import { Response as Res, Request as Req } from "express";
 import Database from "../../database/connection";
 import Users from "../models/UsersModels";
 import bcrypt from "bcrypt";
+import * as yup from "yup";
 
 
+interface UsersInputType {
+  firstName: String;
+  lastName: String;
+  email: String;
+  password: String;
+}
 class UsersControllers {
   async Index(req: Req, res: Res): Promise<Res<any>> {
     try {
@@ -23,8 +30,15 @@ class UsersControllers {
       lastName,
       email,
       password
-    } = req.body;
+    } = req.body as UsersInputType;
     try {
+      if (!(
+        yup.string().email().isValidSync(email) &&
+        yup.string().isValidSync(firstName) &&
+        yup.string().isValidSync(lastName) &&
+        yup.string().isValidSync(password)
+      )) return res.status(401).json({err: "invalid inputs"});
+
       const UserR = Database.getRepository(Users);
 
       const passwordHash = bcrypt.hashSync(password, 2);
@@ -54,6 +68,10 @@ class UsersControllers {
       const [basic, hash] = credentials.split(" ");
       if (!hash) return res.status(401).json({err: "bad formed credentials"});
       const [email, password] = Buffer.from(hash, "base64").toString().split(":");
+
+      if (!(
+        yup.string().email().isValidSync(email)
+      )) return res.status(401).json({err: "invalid email"});
 
       const response = await UserR.findOne({
         where: {
