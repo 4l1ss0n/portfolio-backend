@@ -1,7 +1,7 @@
 import { Response as Res, Request as Req } from "express";
-import { RepositoryNotTreeError } from "typeorm";
 import Database from "../../database/connection";
 import Project from "../models/ProjectsModels";
+import { ProjectViewMany, ProjectViewSingle } from "../views/ProjectViews";
 
 
 class ProjectControllers {
@@ -11,7 +11,7 @@ class ProjectControllers {
 
             const response = await ProjectsR.find();
 
-            return res.status(200).json(response);
+            return res.status(200).json(ProjectViewMany(response));
         } catch (err) {
             console.log(err);
             return res.status(500).json({err});
@@ -32,7 +32,7 @@ class ProjectControllers {
 
             if (!response) return res.status(404).json({err: "project not found"});
 
-            return res.status(200).json(response);
+            return res.status(200).json(ProjectViewSingle(response));
         } catch (err) {
             console.log(err);
             return res.status(500).json({err});
@@ -45,19 +45,25 @@ class ProjectControllers {
             description,
             githubUrl,
             hostUrl,
+            img,
+            auth
         } = req.body;
         try {
+            if (!auth) return res.status(401).json({err: "permition denied"});
+            if (auth.userLevel !== "owner") return res.status(401).json({err: "permition denied"});
+
             const ProjectR = Database.getRepository(Project);
 
             const project = ProjectR.create({
                 title,
                 description,
                 githubUrl,
-                hostUrl: hostUrl? hostUrl: null
+                hostUrl: hostUrl? hostUrl: null,
+                img: img? img: null
             });
 
             await ProjectR.save(project);
-            return res.status(200).json(project);
+            return res.status(200).json(ProjectViewSingle(project));
         } catch (err) {
             console.log(err);
             return res.status(500).json({err});
@@ -65,7 +71,10 @@ class ProjectControllers {
     };
 
     async Update(req: Req, res: Res): Promise<Res<any>> {
+        const {auth} = req.body;
         try {
+            if (!auth) return res.status(401).json({err: "permition denied"});
+            if (auth.userLevel !== "owner") return res.status(401).json({err: "permition denied"});
             return res.status(200).json({});
         } catch (err) {
             console.log(err);
@@ -74,7 +83,10 @@ class ProjectControllers {
     };
 
     async Delete(req: Req, res: Res): Promise<Res<any>> {
+        const {auth} = req.body;
         try {
+            if (!auth) return res.status(401).json({err: "permition denied"});
+            if (auth.userLevel !== "owner") return res.status(401).json({err: "permition denied"});
             return res.status(200).json({});
         } catch (err) {
             console.log(err);
