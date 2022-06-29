@@ -19,11 +19,11 @@ export class InsertOwnerApplication1655506036500 implements MigrationInterface {
       if (!OWN_PASS) throw "No password identify";
       const hash = bcrypt.hashSync(OWN_PASS, 2);
       await Database.createQueryBuilder().insert().into(Users).values({
-        firstName: OWN_EMAIL,
-        lastName: OWN_FNAME,
-        email: OWN_LNAME,
+        firstName: OWN_FNAME,
+        lastName: OWN_LNAME,
+        email: OWN_EMAIL,
         passwordHash: hash,
-        userLevel: "onwer"
+        userLevel: "owner"
       }).execute();
     }
 
