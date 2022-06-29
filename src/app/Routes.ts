@@ -8,7 +8,7 @@ const routes = Router();
 const User = new UsersControllers();
 const Projects = new ProjectControllers();
 
-routes.get("/v1/users", User.Index);
+routes.get("/v1/users/emails", User.Index);
 routes.get("/v1/users/login", User.Login);
 routes.post("/v1/users/register", User.Register);
 
