@@ -27,10 +27,10 @@ class Users {
   isDeleted: boolean;
 
   @Column({
-    enum: ['user', 'moderator', 'onwer'],
+    enum: ['user', 'moderator', 'owner'],
     default: "user"
   })
-  userLevel: "user" | "moderator" | "onwer";
+  userLevel: "user" | "moderator" | "owner";
   
   @CreateDateColumn({
     default: new Date(Date.now())
