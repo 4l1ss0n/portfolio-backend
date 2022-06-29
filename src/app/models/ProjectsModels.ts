@@ -25,6 +25,11 @@ class Project {
   })
   hostUrl: string;
 
+  @Column({
+    nullable: true
+  })
+  img: string;
+
   @CreateDateColumn({
     default: new Date(Date.now())
   })
