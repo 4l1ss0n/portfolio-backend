@@ -11,7 +11,7 @@ interface UsersInputType {
   lastName: String;
   email: String;
   password: String;
-}
+};
 class UsersControllers {
   async Index(req: Req, res: Res): Promise<Res<any>> {
     try {
@@ -26,8 +26,8 @@ class UsersControllers {
     } catch (err) {
       return res.status(500).json({
         err
-      })
-    }
+      });
+    };
   };
 
   async Register(req: Req, res: Res): Promise<Res<any>> {
@@ -51,7 +51,7 @@ class UsersControllers {
         where: {
           email
         }
-      })
+      });
       
       if (alrealyExist) return res.status(405).json({err: "email alrealy register"});
 
@@ -62,17 +62,18 @@ class UsersControllers {
         lastName,
         email,
         passwordHash
-      })
+      });
 
       await UserR.save(user);
 
-      return res.status(201).json({id: user.id})
+      return res.status(201).json({id: user.id});
     } catch (err) {
       return res.status(500).json({
         err
-      })
-    }
+      });
+    };
   };
+  
   async Login(req: Req, res: Res): Promise<Res<any>> {
     const credentials = req.headers.authorization;
     try {
@@ -108,9 +109,9 @@ class UsersControllers {
     } catch (err) {
       return res.status(500).json({
         err
-      })
-    }
-  }
+      });
+    };
+  };
 }
 
 export default UsersControllers;
