@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const ProjectsControllers_1 = __importDefault(require("./controllers/ProjectsControllers"));
+const UsersControllers_1 = __importDefault(require("./controllers/UsersControllers"));
+const Authorization_1 = __importDefault(require("./middlewares/Authorization"));
+const routes = (0, express_1.Router)();
+const User = new UsersControllers_1.default();
+const Projects = new ProjectsControllers_1.default();
+routes.get("/v1/users/emails", User.Index);
+routes.get("/v1/users/login", User.Login);
+routes.post("/v1/users/register", User.Register);
+routes.get("/v1/projects", Projects.Index);
+routes.get("/v1/projects/:id", Projects.Show);
+routes.post("/v1/projects/create", Authorization_1.default, Projects.Store);
+routes.put("/v1/projects/update", Authorization_1.default, Projects.Update);
+routes.delete("/v1/projects/delete", Authorization_1.default, Projects.Delete);
+exports.default = routes;

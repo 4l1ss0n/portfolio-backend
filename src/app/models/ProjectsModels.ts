@@ -4,7 +4,9 @@ import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } fro
 @Entity()
 class Project {
   
-  @PrimaryColumn()
+  @PrimaryColumn({
+    generated: "uuid"
+  })
   id: string;
   
   @Column()
@@ -22,6 +24,11 @@ class Project {
     nullable: true
   })
   hostUrl: string;
+
+  @Column({
+    nullable: true
+  })
+  img: string;
 
   @CreateDateColumn({
     default: new Date(Date.now())
