@@ -43,6 +43,7 @@ class ProjectControllers {
         const {
             title,
             description,
+            techs,
             githubUrl,
             hostUrl,
             img,
@@ -57,6 +58,7 @@ class ProjectControllers {
             const project = ProjectR.create({
                 title,
                 description,
+                techs: JSON.stringify(techs),
                 githubUrl,
                 hostUrl: hostUrl? hostUrl: null,
                 img: img? img: null
