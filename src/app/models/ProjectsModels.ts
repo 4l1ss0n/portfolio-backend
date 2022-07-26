@@ -14,6 +14,9 @@ class Project {
   
   @Column()
   description: string;
+
+  @Column()
+  techs: string;
   
   @Column({
     nullable: false
