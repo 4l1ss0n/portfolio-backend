@@ -7,6 +7,7 @@ interface ProjectOutputType {
     id: string;
     title: string;
     description: string;
+    techs: string[];
     githubUrl: string;
     hostUrl: string | null;
     img: string | null;
@@ -18,6 +19,7 @@ export function ProjectViewSingle(project: ProjectInputType): ProjectOutputType 
         id: project.id,
         title: project.title,
         description: project.description,
+        techs: JSON.parse(project.techs),
         githubUrl: project.githubUrl,
         hostUrl: project.hostUrl,
         img: project.img
