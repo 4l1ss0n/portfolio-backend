@@ -39,6 +39,7 @@ const connection_1 = __importDefault(require("../../database/connection"));
 const ProjectsModels_1 = __importDefault(require("../models/ProjectsModels"));
 const ProjectViews_1 = require("../views/ProjectViews");
 const yup = __importStar(require("yup"));
+const cloudinary_1 = require("cloudinary");
 class ProjectControllers {
     Index(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -79,20 +80,31 @@ class ProjectControllers {
     ;
     Store(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { title, description, techs, githubUrl, hostUrl, img, auth } = req.body;
+            const { title, description, techs, githubUrl, hostUrl, auth, img } = req.body;
             try {
                 if (!auth)
                     return res.status(401).json({ err: "permition denied" });
                 if (auth.userLevel !== "owner")
                     return res.status(401).json({ err: "permition denied" });
                 const ProjectR = connection_1.default.getRepository(ProjectsModels_1.default);
+                let imgUrl;
+                if (img) {
+                    yield cloudinary_1.v2.uploader.upload(img, {
+                        folder: process.env.IMG_PATH
+                    }, (err, result) => {
+                        if (result) {
+                            imgUrl = result.url;
+                            return;
+                        }
+                    });
+                }
                 const project = ProjectR.create({
                     title,
                     description,
                     techs: JSON.stringify(techs),
                     githubUrl,
                     hostUrl: hostUrl ? hostUrl : null,
-                    img: img ? img : null
+                    img: imgUrl
                 });
                 yield ProjectR.save(project);
                 return res.status(200).json((0, ProjectViews_1.ProjectViewSingle)(project));

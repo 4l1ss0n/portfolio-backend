@@ -14,6 +14,9 @@ class Project {
   
   @Column()
   description: string;
+
+  @Column()
+  techs: string;
   
   @Column({
     nullable: false
@@ -28,7 +31,7 @@ class Project {
   @Column({
     nullable: true
   })
-  img: string;
+  img?: string;
 
   @CreateDateColumn({
     default: new Date(Date.now())

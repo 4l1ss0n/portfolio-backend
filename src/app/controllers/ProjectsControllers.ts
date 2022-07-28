@@ -1,8 +1,9 @@
-import { Response as Res, Request as Req } from "express";
+import { Response as Res, Request as Req, response } from "express";
 import Database from "../../database/connection";
 import Project from "../models/ProjectsModels";
 import { ProjectViewMany, ProjectViewSingle } from "../views/ProjectViews";
 import * as yup from "yup";
+import {v2 as ImgCloud} from "cloudinary";
 
 class ProjectControllers {
     async Index(req: Req, res: Res): Promise<Res<any>> {
@@ -43,23 +44,35 @@ class ProjectControllers {
         const {
             title,
             description,
+            techs,
             githubUrl,
             hostUrl,
-            img,
-            auth
+            auth,
+            img
         } = req.body;
         try {
             if (!auth) return res.status(401).json({err: "permition denied"});
             if (auth.userLevel !== "owner") return res.status(401).json({err: "permition denied"});
-
             const ProjectR = Database.getRepository(Project);
+            let imgUrl: string | undefined;
 
+            if (img) {
+                await ImgCloud.uploader.upload(img, {
+                    folder: process.env.IMG_PATH
+                }, (err, result) => {
+                    if (result) {
+                        imgUrl = result.url;
+                        return
+                    }
+                });
+            }
             const project = ProjectR.create({
                 title,
                 description,
+                techs: JSON.stringify(techs),
                 githubUrl,
                 hostUrl: hostUrl? hostUrl: null,
-                img: img? img: null
+                img: imgUrl
             });
 
             await ProjectR.save(project);
