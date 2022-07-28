@@ -10,7 +10,7 @@ interface ProjectOutputType {
     techs: string[];
     githubUrl: string;
     hostUrl: string | null;
-    img: string | null;
+    img?: string;
 }
 
 
