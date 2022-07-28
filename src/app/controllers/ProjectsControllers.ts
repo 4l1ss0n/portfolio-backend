@@ -1,4 +1,4 @@
-import { Response as Res, Request as Req, response } from "express";
+import { Response as Res, Request as Req } from "express";
 import Database from "../../database/connection";
 import Project from "../models/ProjectsModels";
 import { ProjectViewMany, ProjectViewSingle } from "../views/ProjectViews";
