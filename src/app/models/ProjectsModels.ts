@@ -31,7 +31,7 @@ class Project {
   @Column({
     nullable: true
   })
-  img: string;
+  img?: string;
 
   @CreateDateColumn({
     default: new Date(Date.now())
